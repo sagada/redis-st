@@ -8,8 +8,15 @@ import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 
 @Configuration
@@ -26,10 +33,18 @@ public class RedisConfig {
     }
 
     @Bean
+    public PlatformTransactionManager transactionManager(DataSource dataSource) throws SQLException
+    {
+        return new DataSourceTransactionManager(dataSource);
+    }
+
+    @Bean
     public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory)
     {
         RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setEnableTransactionSupport(true);
+
         return redisTemplate;
     }
 }
