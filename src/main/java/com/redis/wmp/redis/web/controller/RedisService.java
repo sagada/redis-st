@@ -26,7 +26,6 @@ public class RedisService {
         {
             valueOperations.set(str + i, String.valueOf(i));
         }
-
     }
 
     public String getStr(String str)

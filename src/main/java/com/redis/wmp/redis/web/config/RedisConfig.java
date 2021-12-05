@@ -6,18 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.List;
+
+import static io.lettuce.core.ReadFrom.*;
 
 @Configuration
 public class RedisConfig {
@@ -29,13 +23,12 @@ public class RedisConfig {
     public RedisConnectionFactory redisConnectionFactory()
     {
         RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(nodes);
-        return new LettuceConnectionFactory(redisClusterConfiguration);
-    }
 
-    @Bean
-    public PlatformTransactionManager transactionManager(DataSource dataSource) throws SQLException
-    {
-        return new DataSourceTransactionManager(dataSource);
+        LettuceClientConfiguration build = LettuceClientConfiguration.builder()
+                .readFrom(MASTER)
+                .build();
+
+        return new LettuceConnectionFactory(redisClusterConfiguration, build);
     }
 
     @Bean
