@@ -1,5 +1,10 @@
 package com.redis.wmp.redis.web.config;
 
+import io.lettuce.core.ClientOptions;
+import io.lettuce.core.cluster.ClusterClientOptions;
+import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
+import io.lettuce.core.cluster.RedisClusterClient;
+import io.lettuce.core.resource.ClientResources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +14,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.lettuce.core.ReadFrom.*;
 
@@ -24,8 +32,22 @@ public class RedisConfig {
     {
         RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(nodes);
 
+
+        ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
+                .enablePeriodicRefresh()
+                .enableAllAdaptiveRefreshTriggers()
+                .enablePeriodicRefresh(Duration.ofSeconds(5)) // periodic refresh
+                .build();
+
+        ClusterClientOptions clusterClientOptions = ClusterClientOptions.builder()
+                .topologyRefreshOptions(clusterTopologyRefreshOptions)
+                .autoReconnect(true)
+                .disconnectedBehavior(ClientOptions.DisconnectedBehavior.REJECT_COMMANDS)
+                .build();
+
         LettuceClientConfiguration build = LettuceClientConfiguration.builder()
-                .readFrom(MASTER)
+                .readFrom(REPLICA)
+                .clientOptions(clusterClientOptions)
                 .build();
 
         return new LettuceConnectionFactory(redisClusterConfiguration, build);
