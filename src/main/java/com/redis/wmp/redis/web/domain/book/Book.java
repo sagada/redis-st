@@ -9,7 +9,6 @@ import javax.persistence.Id;
 @Getter @Setter
 @RedisHash("book")
 public class Book {
-
     @Id
     private Long id;
     private String title;
