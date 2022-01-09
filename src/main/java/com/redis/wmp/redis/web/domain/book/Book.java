@@ -12,5 +12,5 @@ public class Book {
     @Id
     private Long id;
     private String title;
-    private String price;
+    private String content;
 }

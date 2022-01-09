@@ -2,6 +2,7 @@ package com.redis.wmp.redis.web.controller;
 
 import com.redis.wmp.redis.web.domain.book.Book;
 import com.redis.wmp.redis.web.domain.book.BookRepository;
+import com.redis.wmp.redis.web.dto.BookRequestDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,13 @@ public class RedisController {
 
     private final BookRepository bookRepository;
 
-    @PostMapping("/{title}")
-    public void save(@PathVariable String title)
+    @PostMapping
+    public void save(@RequestBody BookRequestDto bookRequestDto)
     {
         Book book = new Book();
-        book.setTitle(title);
+        book.setTitle(bookRequestDto.getTitle());
+        book.setContent(bookRequestDto.getContent());
+
         bookRepository.save(book);
     }
 
