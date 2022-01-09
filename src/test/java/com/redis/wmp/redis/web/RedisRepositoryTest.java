@@ -19,16 +19,16 @@ public class RedisRepositoryTest {
     @Test
     void insert()
     {
+        // given
         Book book = new Book();
-
         book.setTitle("title");
         book.setContent("Content");
 
+        // when
         repository.save(book);
+        Book newBook = repository.findById(book.getId()).orElseThrow(RuntimeException::new);
 
-
-        Optional<Book> byId = repository.findById(book.getId());
-
-        Assertions.assertFalse(byId.isPresent());
+        // then
+        Assertions.assertEquals(newBook.getContent(), "Content");
     }
 }
