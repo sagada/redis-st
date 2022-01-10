@@ -1,5 +1,6 @@
 package com.redis.wmp.redis.web.config;
 
+import com.redis.wmp.redis.web.domain.book.Book;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
@@ -55,9 +56,9 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory)
+    public RedisTemplate<Long, Book> redisTemplate(RedisConnectionFactory redisConnectionFactory)
     {
-        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
+        RedisTemplate<Long, Book> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setEnableTransactionSupport(true);
 
