@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BookService {
 
-    private final RedisTemplate<Long,Book> redisTemplate;
+    private final RedisTemplate<String, Book> redisTemplate;
 
     public void save(Book book)
     {
-        redisTemplate.opsForValue().set(book.getId(), book);
+        redisTemplate.opsForValue().set(book.getContent(), book);
     }
 }

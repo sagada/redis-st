@@ -1,4 +1,4 @@
-package com.redis.wmp.redis.web.dto;
+package com.redis.wmp.redis.web.domain.book.dto;
 
 import lombok.Getter;
 import lombok.Setter;

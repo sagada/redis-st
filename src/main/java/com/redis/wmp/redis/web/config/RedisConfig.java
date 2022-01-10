@@ -56,9 +56,9 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<Long, Book> redisTemplate(RedisConnectionFactory redisConnectionFactory)
+    public RedisTemplate<String, Book> redisTemplate(RedisConnectionFactory redisConnectionFactory)
     {
-        RedisTemplate<Long, Book> redisTemplate = new RedisTemplate<>();
+        RedisTemplate<String, Book> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setEnableTransactionSupport(true);
 

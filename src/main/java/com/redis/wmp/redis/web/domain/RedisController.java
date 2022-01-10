@@ -1,7 +1,8 @@
-package com.redis.wmp.redis.web.controller;
+package com.redis.wmp.redis.web.domain;
 
+import com.redis.wmp.redis.web.controller.BookService;
 import com.redis.wmp.redis.web.domain.book.Book;
-import com.redis.wmp.redis.web.dto.BookRequestDto;
+import com.redis.wmp.redis.web.domain.book.dto.BookRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

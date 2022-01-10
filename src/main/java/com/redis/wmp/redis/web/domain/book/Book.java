@@ -9,7 +9,9 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@RedisHash("book")
 public class Book implements Serializable {
+    @Id
     private Long id;
     private String title;
     private String content;
