@@ -11,8 +11,9 @@ public class BookService {
 
     private final RedisTemplate<String, Book> redisTemplate;
 
-    public void save(Book book)
+    public Long save(Book book)
     {
         redisTemplate.opsForValue().set(book.getContent(), book);
+        return book.getId();
     }
 }

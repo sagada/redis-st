@@ -33,5 +33,4 @@ public class DataSourceConfig {
         dataSource.setPassword(password);
         return dataSource;
     }
-
 }

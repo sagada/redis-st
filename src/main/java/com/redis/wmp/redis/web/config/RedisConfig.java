@@ -19,7 +19,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static io.lettuce.core.ReadFrom.*;
 
@@ -34,7 +33,6 @@ public class RedisConfig {
     {
         RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(nodes);
 
-
         ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
                 .enablePeriodicRefresh()
                 .enableAllAdaptiveRefreshTriggers()
@@ -48,7 +46,7 @@ public class RedisConfig {
                 .build();
 
         LettuceClientConfiguration build = LettuceClientConfiguration.builder()
-                .readFrom(REPLICA)
+                .readFrom(REPLICA_PREFERRED)
                 .clientOptions(clusterClientOptions)
                 .build();
 

@@ -14,13 +14,12 @@ public class RedisController {
     private final BookService bookService;
 
     @PostMapping
-    public void save(@RequestBody BookRequestDto bookRequestDto)
+    public Long save(@RequestBody BookRequestDto bookRequestDto)
     {
         Book book = new Book();
         book.setTitle(bookRequestDto.getTitle());
         book.setContent(bookRequestDto.getContent());
 
-        bookService.save(book);
+        return bookService.save(book);
     }
-
 }
